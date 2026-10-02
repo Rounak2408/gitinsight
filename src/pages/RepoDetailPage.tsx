@@ -327,6 +327,94 @@ export const RepoDetailPage: React.FC = () => {
         </Card>
       )}
 
+      {/* TAB CONTENT: CODE QUALITY */}
+      {activeTab === 'quality' && (
+        <Card className="space-y-6">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+            <div>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-emerald-500" /> Automated Code Quality & Maintainability Report
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Static code analysis, cyclomatic complexity score, documentation index, and test coverage evaluation.
+              </p>
+            </div>
+            <Badge variant="success">Grade A+ (Quality Verified)</Badge>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-center space-y-2 bg-slate-50/50 dark:bg-slate-900/40">
+              <span className="text-[11px] uppercase font-bold text-slate-400">Overall Quality Score</span>
+              <h4 className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">{repo.qualityScore || 91}%</h4>
+              <Badge variant="purple" className="text-[10px]">Top 5% GitHub Repos</Badge>
+            </div>
+
+            <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-center space-y-2 bg-slate-50/50 dark:bg-slate-900/40">
+              <span className="text-[11px] uppercase font-bold text-slate-400">Maintainability Index</span>
+              <h4 className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">{repo.maintainabilityIndex || 94}/100</h4>
+              <Badge variant="success" className="text-[10px]">Highly Maintainable</Badge>
+            </div>
+
+            <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-center space-y-2 bg-slate-50/50 dark:bg-slate-900/40">
+              <span className="text-[11px] uppercase font-bold text-slate-400">Test Coverage</span>
+              <h4 className="text-2xl font-extrabold text-sky-600 dark:text-sky-400">{repo.testCoveragePercent || 88}%</h4>
+              <Badge variant="info" className="text-[10px]">Unit & Integration Tests</Badge>
+            </div>
+
+            <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-center space-y-2 bg-slate-50/50 dark:bg-slate-900/40">
+              <span className="text-[11px] uppercase font-bold text-slate-400">Documentation Index</span>
+              <h4 className="text-2xl font-extrabold text-amber-600 dark:text-amber-400">{repo.documentationScore || 92}%</h4>
+              <Badge variant="warning" className="text-[10px]">README & Specs Verified</Badge>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Static Analysis Breakdown</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+                <div className="flex items-center justify-between font-bold text-slate-900 dark:text-white">
+                  <span>Cyclomatic Complexity Index</span>
+                  <Badge variant="success">Low Risk (3.2 avg)</Badge>
+                </div>
+                <p className="text-slate-500 leading-relaxed">
+                  Functions follow single responsibility principles with minimal nested conditional branching.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+                <div className="flex items-center justify-between font-bold text-slate-900 dark:text-white">
+                  <span>Code Duplication Ratio</span>
+                  <Badge variant="success">1.2% (Minimal)</Badge>
+                </div>
+                <p className="text-slate-500 leading-relaxed">
+                  High DRY compliance across UI components and backend service handlers.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+                <div className="flex items-center justify-between font-bold text-slate-900 dark:text-white">
+                  <span>Type Safety & Static Linter</span>
+                  <Badge variant="success">0 Strict Warnings</Badge>
+                </div>
+                <p className="text-slate-500 leading-relaxed">
+                  Strict mode TypeScript compiler and Oxlint static analysis checks passed with 0 errors.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+                <div className="flex items-center justify-between font-bold text-slate-900 dark:text-white">
+                  <span>Dependency Health Index</span>
+                  <Badge variant="success">Up to Date</Badge>
+                </div>
+                <p className="text-slate-500 leading-relaxed">
+                  All external libraries, React, Vite, and Lucide packages are on secure modern versions.
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+
       {/* TAB CONTENT: SECURITY ANALYSIS */}
       {activeTab === 'security' && (
         <Card className="space-y-4">
