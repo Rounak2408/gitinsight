@@ -23,7 +23,7 @@ export const InterviewPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-            Interview Preparation <Badge variant="green">Voice AI Enabled 🎙️</Badge>
+            Interview Preparation <Badge variant="success">Voice AI Enabled 🎙️</Badge>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
             Technical and architectural interview questions generated directly from your actual GitHub repository code with real-time Voice-to-Voice interaction.

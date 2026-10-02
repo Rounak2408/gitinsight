@@ -159,10 +159,10 @@ export const MockInterviewSessionPage: React.FC = () => {
         <div className="flex items-center gap-3">
           <Badge variant="purple">Question {currentIndex + 1} of {questions.length || 4}</Badge>
           <div className="flex items-center gap-1">
-            <Button size="xs" variant="outline" onClick={handlePrev} disabled={currentIndex === 0}>
+            <Button size="sm" variant="outline" onClick={handlePrev} disabled={currentIndex === 0}>
               <ChevronLeft className="w-3.5 h-3.5" />
             </Button>
-            <Button size="xs" variant="outline" onClick={handleNext} disabled={currentIndex >= questions.length - 1}>
+            <Button size="sm" variant="outline" onClick={handleNext} disabled={currentIndex >= questions.length - 1}>
               <ChevronRight className="w-3.5 h-3.5" />
             </Button>
           </div>
@@ -177,7 +177,7 @@ export const MockInterviewSessionPage: React.FC = () => {
           </div>
           <div>
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              Voice-to-Voice AI Mock Interview Mode <Badge variant="green">Active 🎙️</Badge>
+              Voice-to-Voice AI Mock Interview Mode <Badge variant="success">Active 🎙️</Badge>
             </h3>
             <p className="text-xs text-slate-400">
               Listen to AI interviewer speak questions & speak your technical answers using your microphone in real-time.
@@ -279,7 +279,7 @@ export const MockInterviewSessionPage: React.FC = () => {
                   <Sparkles className="w-4 h-4" /> AI Voice Feedback
                 </div>
                 <Button
-                  size="xs"
+                  size="sm"
                   variant="outline"
                   onClick={() => speakText(result.aiFeedback)}
                   icon={<Volume2 className="w-3.5 h-3.5" />}

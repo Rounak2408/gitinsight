@@ -477,6 +477,7 @@ export const skillsApi = {
           proficiencyScore: Math.min(76 + langRepos.length * 5, 96),
           repositoriesCount: langRepos.length,
           filesCount: langRepos.length * 12 + 4,
+          recentUsageDate: new Date().toISOString().split('T')[0],
           sampleEvidence: langRepos.slice(0, 2).map((r) => ({
             repoName: r.name,
             filePath: `src/index.${lang === 'TypeScript' ? 'ts' : lang === 'JavaScript' ? 'js' : lang === 'Python' ? 'py' : lang === 'C#' ? 'cs' : 'code'}`,
@@ -494,6 +495,7 @@ export const skillsApi = {
           proficiencyScore: 94,
           repositoriesCount: activeCloudRepos.length,
           filesCount: activeCloudRepos.length * 5,
+          recentUsageDate: new Date().toISOString().split('T')[0],
           sampleEvidence: activeCloudRepos.slice(0, 3).map((r) => ({
             repoName: r.name,
             filePath: r.homepage || `https://${r.name.toLowerCase()}.vercel.app`,
@@ -539,7 +541,7 @@ export const jobApi = {
           id: 'job-1',
           roleTitle: `Full-Stack ${primaryLang} / Web Application Engineer`,
           companyName: 'Tech Scale Enterprise',
-          targetSeniority: 'Senior Developer',
+          targetSeniority: 'Senior',
           overallMatchScore: Math.min(88 + repos.length, 98),
           whyAligned: `High overlap in verified GitHub repositories using ${topLangs.slice(0, 3).join(', ')} with active live Cloud Deployments.`,
           requirements: [
@@ -558,7 +560,7 @@ export const jobApi = {
           id: 'job-2',
           roleTitle: 'Software Systems & Frontend Engineer',
           companyName: 'Cloud Solutions Inc.',
-          targetSeniority: 'Full-Stack Specialist',
+          targetSeniority: 'Lead',
           overallMatchScore: 92,
           whyAligned: `Proven track record with ${repos.length} public GitHub repositories across web & cloud deployment domains.`,
           requirements: [
@@ -646,7 +648,7 @@ export const jobApi = {
         id: `job-custom-${Date.now()}`,
         roleTitle: 'Custom Job Description Alignment',
         companyName: 'Analyzed Target Position',
-        targetSeniority: 'Mid-Senior Level',
+        targetSeniority: 'Senior',
         overallMatchScore: calculatedScore,
         whyAligned: `Match score of ${calculatedScore}% calculated based on real GitHub profile @${cleaned} (${repos.length} public repositories & live Vercel cloud deployments).`,
         requirements: detectedSkills.map((s) => ({
@@ -686,48 +688,52 @@ export const roadmapApi = {
       return [
         {
           id: 'road-1',
+          targetSkill: 'CI/CD & GitHub Actions',
           weekNumber: 1,
           phaseTitle: 'CI/CD & Automated GitHub Workflows',
           objective: `Add automated CI/CD GitHub Actions workflows to your primary repository (${primaryRepo}) to demonstrate deployment capabilities.`,
           suggestedProject: `${primaryRepo}-ci-pipeline`,
           isCompleted: false,
           learningResources: [
-            { title: 'GitHub Actions Fundamentals Docs', url: 'https://docs.github.com/en/actions' },
-            { title: 'Continuous Integration Best Practices', url: 'https://github.com/features/actions' }
+            { title: 'GitHub Actions Fundamentals Docs', url: 'https://docs.github.com/en/actions', type: 'doc' },
+            { title: 'Continuous Integration Best Practices', url: 'https://github.com/features/actions', type: 'video' }
           ]
         },
         {
           id: 'road-2',
+          targetSkill: 'Unit Testing & Coverage',
           weekNumber: 2,
           phaseTitle: 'Automated Testing & Coverage Badges',
           objective: `Implement Unit Tests and generate test coverage badges for your repositories (${repos.slice(0, 2).map((r) => r.name).join(', ')}).`,
           suggestedProject: `unit-tests-suite`,
           isCompleted: false,
           learningResources: [
-            { title: 'Jest & Vitest Testing Guide', url: 'https://vitest.dev/' },
-            { title: 'Code Coverage Reporting', url: 'https://codecov.io/' }
+            { title: 'Jest & Vitest Testing Guide', url: 'https://vitest.dev/', type: 'doc' },
+            { title: 'Code Coverage Reporting', url: 'https://codecov.io/', type: 'course' }
           ]
         },
         {
           id: 'road-3',
+          targetSkill: 'Docker & Containerization',
           weekNumber: 3,
           phaseTitle: 'Docker Containerization & Deployment',
           objective: 'Create Dockerfiles and docker-compose configurations for rapid local setup and cloud container deployment.',
           suggestedProject: `docker-container-template`,
           isCompleted: false,
           learningResources: [
-            { title: 'Docker Official Getting Started Guide', url: 'https://docs.docker.com/get-started/' }
+            { title: 'Docker Official Getting Started Guide', url: 'https://docs.docker.com/get-started/', type: 'doc' }
           ]
         },
         {
           id: 'road-4',
+          targetSkill: 'Architecture Documentation',
           weekNumber: 4,
           phaseTitle: 'Documentation & API Swagger Specifications',
           objective: `Standardize README documentation, architecture diagrams, and OpenAPI/Swagger specs across all ${repos.length} public GitHub repositories.`,
           suggestedProject: 'readme-architecture-docs',
           isCompleted: true,
           learningResources: [
-            { title: 'Professional README Guide', url: 'https://www.makeareadme.com/' }
+            { title: 'Professional README Guide', url: 'https://www.makeareadme.com/', type: 'doc' }
           ]
         }
       ];
@@ -766,7 +772,7 @@ export const interviewApi = {
       return [
         {
           id: 'q-1',
-          category: 'System Architecture & Data Flow',
+          category: 'Project Architecture',
           contextRepo: repo1,
           contextSnippet: `// Source repository: ${repo1}\nexport function handleStateChange(payload) {\n  // Architecture & state management flow\n}`,
           question: `In your public repository "${repo1}", how did you design the application structure and manage state and API requests?`,
@@ -774,7 +780,7 @@ export const interviewApi = {
         },
         {
           id: 'q-2',
-          category: 'Real-Time Monitoring & Telemetry',
+          category: 'Technical Stack',
           contextRepo: repo2,
           contextSnippet: `// Source repository: ${repo2}\nexport class TelemetryCollector {\n  public processMetrics() { /* ... */ }\n}`,
           question: `In your repository "${repo2}", how are real-time telemetry events and system monitoring data processed and displayed?`,
@@ -782,7 +788,7 @@ export const interviewApi = {
         },
         {
           id: 'q-3',
-          category: 'Object-Oriented & Language Patterns',
+          category: 'Technical Stack',
           contextRepo: repo3,
           contextSnippet: `// Source repository: ${repo3}\npublic interface IRepository<T> {\n  Task<T> GetByIdAsync(string id);\n}`,
           question: `In your repository "${repo3}", what object-oriented design patterns or software development concepts did you implement?`,
@@ -790,7 +796,7 @@ export const interviewApi = {
         },
         {
           id: 'q-4',
-          category: 'Asynchronous Event Handling',
+          category: 'System Design',
           contextRepo: repo4,
           contextSnippet: `// Source repository: ${repo4}\nasync function processCommand(input) {\n  // Event execution loop\n}`,
           question: `In your repository "${repo4}", how did you structure asynchronous command processing and handle potential runtime failures?`,
@@ -842,6 +848,7 @@ export const historyApi = {
           targetName: `@${cleaned}`,
           timestamp: new Date().toISOString(),
           qualityScore: 92,
+          matchedSkillsCount: repos.length * 2,
           summary: `Full profile scan of @${cleaned} completed across ${repos.length} public GitHub repositories.`,
         },
         {
@@ -850,6 +857,7 @@ export const historyApi = {
           targetName: r1,
           timestamp: new Date(Date.now() - 86400000).toISOString(),
           qualityScore: 86,
+          matchedSkillsCount: 8,
           summary: `Repository quality scan & architecture analysis completed for ${r1}.`,
         },
         {
@@ -858,6 +866,7 @@ export const historyApi = {
           targetName: r2,
           timestamp: new Date(Date.now() - 172800000).toISOString(),
           qualityScore: 88,
+          matchedSkillsCount: 6,
           summary: `Telemetry & component structure verified in ${r2}.`,
         },
         {
@@ -866,6 +875,7 @@ export const historyApi = {
           targetName: r3,
           timestamp: new Date(Date.now() - 259200000).toISOString(),
           qualityScore: 83,
+          matchedSkillsCount: 5,
           summary: `Code pattern & language implementation verified in ${r3}.`,
         },
       ];
@@ -896,6 +906,7 @@ export const historyApi = {
         jobAlignmentDelta: 22,
         reposAdded: repos.length,
         skillsGained: topLangs.length > 0 ? topLangs : ['TypeScript', 'JavaScript', 'Python'],
+        resolvedGaps: ['DevOps CI/CD Deployment', 'System Architecture'],
       };
     } catch (e) {
       console.warn('Failed to build dynamic comparison:', e);

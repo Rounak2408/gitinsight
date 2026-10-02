@@ -311,7 +311,7 @@ export const RepoDetailPage: React.FC = () => {
             <div className="md:col-span-2 p-5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-4 text-xs">
               <h4 className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
                 <span>AI Detection Heuristic Breakdown for {repo.name}</span>
-                <Badge variant="green">High Confidence Verification</Badge>
+                <Badge variant="success">High Confidence Verification</Badge>
               </h4>
 
               <div className="space-y-3">
