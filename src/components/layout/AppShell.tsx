@@ -127,7 +127,7 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
   ];
 
   return (
-    <div className="h-screen w-screen flex overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-200">
+    <div className="h-screen w-full flex overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-200">
       <CommandPalette isOpen={cmdOpen} onClose={() => setCmdOpen(false)} />
 
       {/* --- DESKTOP SIDEBAR --- */}
@@ -276,7 +276,7 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
       {/* --- MAIN BODY CONTENT AREA --- */}
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
         {/* Top Navbar Header */}
-        <header className="h-16 flex-shrink-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/80 px-3 sm:px-6 flex items-center justify-between z-20">
+        <header className="h-16 flex-shrink-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/80 px-4 sm:px-6 lg:px-8 flex items-center justify-between z-20 w-full">
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setMobileOpen(true)}
@@ -423,7 +423,7 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
         </header>
 
         {/* Main page content container */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 w-full max-w-7xl mx-auto">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 w-full">{children}</main>
       </div>
     </div>
   );
