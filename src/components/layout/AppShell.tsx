@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -24,17 +24,88 @@ import {
   CheckCircle2,
   Database,
   Cpu,
+  Info,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
 import { CommandPalette } from '../ui/CommandPalette';
 import { Badge, Button } from '../ui/Primitives';
 
+interface NotificationItem {
+  id: string;
+  title: string;
+  description: string;
+  time: string;
+  unread: boolean;
+  link: string;
+  type: 'success' | 'sparkles' | 'info';
+}
+
+const DEFAULT_NOTIFICATIONS: NotificationItem[] = [
+  {
+    id: '1',
+    title: 'Repository Analysis Ready',
+    description: 'enterprise-cqrs-api score updated to 94%.',
+    time: '10m ago',
+    unread: true,
+    link: '/repositories',
+    type: 'success',
+  },
+  {
+    id: '2',
+    title: 'New Career Fit Match',
+    description: 'Senior .NET Engineer matches your profile (94%).',
+    time: '45m ago',
+    unread: true,
+    link: '/career',
+    type: 'sparkles',
+  },
+  {
+    id: '3',
+    title: 'Code Evidence Verified',
+    description: '18 technologies verified across 24 public repositories.',
+    time: '2h ago',
+    unread: true,
+    link: '/skills',
+    type: 'info',
+  },
+];
+
 export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(() => {
+    try {
+      const saved = localStorage.getItem('gitinsight_notifications');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return DEFAULT_NOTIFICATIONS;
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gitinsight_notifications', JSON.stringify(notifications));
+    } catch {}
+  }, [notifications]);
+
+  const unreadCount = notifications.filter((n) => n.unread).length;
+
+  const markAsRead = (id: string, link?: string) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, unread: false } : n))
+    );
+    if (link) {
+      setShowNotifications(false);
+      navigate(link);
+    }
+  };
+
+  const markAllAsRead = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
+  };
 
   const { user, mockMode, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -248,34 +319,96 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
               <button
                 onClick={() => setShowNotifications(!showNotifications)}
                 className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 relative transition-colors"
+                title="Notifications"
               >
                 <Bell className="w-4 h-4" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
+                {unreadCount > 0 && (
+                  <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
+                )}
               </button>
 
               {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl p-4 z-50 text-xs">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800 font-bold">
-                    <span>Notifications</span>
-                    <Badge variant="purple">3 New</Badge>
-                  </div>
-                  <div className="space-y-3 pt-3">
-                    <div className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <div>
-                        <p className="font-semibold text-slate-800 dark:text-slate-200">Repository Analysis Ready</p>
-                        <p className="text-slate-500 text-[11px]">enterprise-cqrs-api score updated to 94%.</p>
+                <>
+                  {/* Backdrop to close notification popover */}
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setShowNotifications(false)}
+                  />
+                  <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl p-4 z-50 text-xs animate-in fade-in zoom-in-95 duration-150">
+                    <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-slate-900 dark:text-slate-100 text-sm">Notifications</span>
+                        {unreadCount > 0 ? (
+                          <Badge variant="purple">{unreadCount} New</Badge>
+                        ) : (
+                          <Badge variant="success">All Read</Badge>
+                        )}
                       </div>
+                      {unreadCount > 0 && (
+                        <button
+                          onClick={markAllAsRead}
+                          className="text-[11px] text-indigo-600 dark:text-indigo-400 hover:underline font-semibold"
+                        >
+                          Mark all as read
+                        </button>
+                      )}
                     </div>
-                    <div className="flex items-start gap-2.5">
-                      <Sparkles className="w-4 h-4 text-indigo-500 shrink-0 mt-0.5" />
-                      <div>
-                        <p className="font-semibold text-slate-800 dark:text-slate-200">New Career Fit Match</p>
-                        <p className="text-slate-500 text-[11px]">Senior .NET Engineer matches your profile (94%).</p>
-                      </div>
+
+                    <div className="space-y-2 pt-3 max-h-80 overflow-y-auto">
+                      {notifications.length === 0 ? (
+                        <div className="py-6 text-center text-slate-400">
+                          <CheckCircle2 className="w-8 h-8 mx-auto text-emerald-500 mb-2 opacity-60" />
+                          <p className="font-medium text-xs">No notifications</p>
+                        </div>
+                      ) : (
+                        notifications.map((item) => (
+                          <div
+                            key={item.id}
+                            onClick={() => markAsRead(item.id, item.link)}
+                            className={`flex items-start gap-3 p-2.5 rounded-lg transition-all cursor-pointer group ${
+                              item.unread
+                                ? 'bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 hover:bg-indigo-100/60 dark:hover:bg-indigo-950/70'
+                                : 'bg-slate-50/50 dark:bg-slate-950/30 hover:bg-slate-100/60 dark:hover:bg-slate-800/40 opacity-70 hover:opacity-100'
+                            }`}
+                          >
+                            <div className="mt-0.5 shrink-0">
+                              {item.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
+                              {item.type === 'sparkles' && <Sparkles className="w-4 h-4 text-indigo-500" />}
+                              {item.type === 'info' && <Info className="w-4 h-4 text-sky-500" />}
+                            </div>
+
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between gap-1">
+                                <p className={`font-semibold truncate ${item.unread ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}>
+                                  {item.title}
+                                </p>
+                                <span className="text-[10px] text-slate-400 shrink-0">{item.time}</span>
+                              </div>
+                              <p className="text-slate-500 dark:text-slate-400 text-[11px] leading-relaxed mt-0.5">
+                                {item.description}
+                              </p>
+                            </div>
+
+                            {item.unread ? (
+                              <button
+                                title="Mark as read"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  markAsRead(item.id);
+                                }}
+                                className="w-2.5 h-2.5 rounded-full bg-indigo-600 shrink-0 mt-1.5 hover:scale-125 transition-transform"
+                              />
+                            ) : (
+                              <span className="text-[10px] font-semibold text-emerald-500 shrink-0 mt-1">
+                                Read
+                              </span>
+                            )}
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
-                </div>
+                </>
               )}
             </div>
 
