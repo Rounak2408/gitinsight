@@ -30,6 +30,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
 import { CommandPalette } from '../ui/CommandPalette';
 import { Badge, Button } from '../ui/Primitives';
+import { GitAssistant } from '../ui/GitAssistant';
 
 interface NotificationItem {
   id: string;
@@ -424,6 +425,9 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
         {/* Main page content container */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 w-full">{children}</main>
+
+        {/* Global GitAssistant AI Floating Chatbot & Autonomous Controller */}
+        <GitAssistant />
       </div>
     </div>
   );
