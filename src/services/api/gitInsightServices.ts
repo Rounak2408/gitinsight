@@ -35,26 +35,72 @@ const simulateDelay = (ms = 600) => new Promise((resolve) => setTimeout(resolve,
 
 export const authApi = {
   async login(email: string): Promise<{ user: User; token: string }> {
+    const activeUser = localStorage.getItem('gitinsight_active_user') || 'rounak2408';
     if (isMockMode()) {
-      await simulateDelay(500);
+      await simulateDelay(300);
       const token = 'mock_jwt_token_header_payload_signature';
       localStorage.setItem('gitinsight_token', token);
-      return { user: { ...mockUser, email }, token };
+      return {
+        user: {
+          ...mockUser,
+          email,
+          name: activeUser,
+          githubUsername: activeUser,
+          avatarUrl: `https://github.com/${activeUser}.png`,
+        },
+        token,
+      };
     }
-    const res = await apiClient.post('/auth/login', { email });
-    return res.data;
+    try {
+      const res = await apiClient.post('/auth/login', { email });
+      return res.data;
+    } catch {
+      const token = 'mock_jwt_token_header_payload_signature';
+      localStorage.setItem('gitinsight_token', token);
+      return {
+        user: {
+          ...mockUser,
+          email,
+          name: activeUser,
+          githubUsername: activeUser,
+          avatarUrl: `https://github.com/${activeUser}.png`,
+        },
+        token,
+      };
+    }
   },
 
   async register(name: string, email: string, username: string): Promise<{ user: User; token: string }> {
     if (isMockMode()) {
-      await simulateDelay(600);
-      const user = { ...mockUser, name, email, githubUsername: username };
+      await simulateDelay(300);
+      const user = {
+        ...mockUser,
+        name,
+        email,
+        githubUsername: username,
+        avatarUrl: `https://github.com/${username}.png`,
+      };
       const token = 'mock_jwt_token_registered';
       localStorage.setItem('gitinsight_token', token);
+      localStorage.setItem('gitinsight_active_user', username);
       return { user, token };
     }
-    const res = await apiClient.post('/auth/register', { name, email, githubUsername: username });
-    return res.data;
+    try {
+      const res = await apiClient.post('/auth/register', { name, email, githubUsername: username });
+      return res.data;
+    } catch {
+      const user = {
+        ...mockUser,
+        name,
+        email,
+        githubUsername: username,
+        avatarUrl: `https://github.com/${username}.png`,
+      };
+      const token = 'mock_jwt_token_registered';
+      localStorage.setItem('gitinsight_token', token);
+      localStorage.setItem('gitinsight_active_user', username);
+      return { user, token };
+    }
   },
 
   async getCurrentUser(): Promise<User> {

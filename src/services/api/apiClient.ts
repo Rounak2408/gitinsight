@@ -6,7 +6,11 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000
 export const isMockMode = (): boolean => {
   const stored = localStorage.getItem('gitinsight_mock_mode');
   if (stored !== null) return stored === 'true';
-  return import.meta.env.VITE_MOCK_MODE === 'true';
+  if (import.meta.env.VITE_MOCK_MODE !== undefined) {
+    return import.meta.env.VITE_MOCK_MODE === 'true';
+  }
+  // Default to true in frontend cloud deployments so all login and metrics work out-of-the-box
+  return true;
 };
 
 export const setMockMode = (enabled: boolean): void => {

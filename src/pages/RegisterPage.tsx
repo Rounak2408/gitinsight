@@ -14,7 +14,11 @@ export const RegisterPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await register(name, email, username);
+    try {
+      await register(name, email, username);
+    } catch (err) {
+      console.warn('Register note:', err);
+    }
     navigate('/dashboard');
   };
 

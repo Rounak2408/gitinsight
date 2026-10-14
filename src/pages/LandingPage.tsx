@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Cpu,
   ArrowRight,
@@ -24,6 +24,7 @@ import { Button, Badge, Card } from '../components/ui/Primitives';
 import { useTheme } from '../hooks/useTheme';
 
 export const LandingPage: React.FC = () => {
+  const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [demoTab, setDemoTab] = useState<'profile' | 'repo' | 'skills' | 'career'>('profile');
@@ -78,14 +79,21 @@ export const LandingPage: React.FC = () => {
             >
               {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
             </button>
-            <Link to="/login">
-              <Button variant="ghost" size="sm">Log In</Button>
-            </Link>
-            <Link to="/dashboard">
-              <Button variant="primary" size="sm" icon={<ArrowRight className="w-3.5 h-3.5" />}>
-                Launch App
-              </Button>
-            </Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/login')}
+            >
+              Log In
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              icon={<ArrowRight className="w-3.5 h-3.5" />}
+              onClick={() => navigate('/dashboard')}
+            >
+              Launch App
+            </Button>
           </div>
         </div>
       </nav>
@@ -109,16 +117,23 @@ export const LandingPage: React.FC = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link to="/analyzer">
-              <Button size="lg" className="w-full sm:w-auto" icon={<Search className="w-4 h-4" />}>
-                Analyze GitHub Profile
-              </Button>
-            </Link>
-            <Link to="/dashboard">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto" icon={<ArrowRight className="w-4 h-4" />}>
-                Explore Live Demo
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              className="w-full sm:w-auto"
+              icon={<Search className="w-4 h-4" />}
+              onClick={() => navigate('/analyzer')}
+            >
+              Analyze GitHub Profile
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto"
+              icon={<ArrowRight className="w-4 h-4" />}
+              onClick={() => navigate('/dashboard')}
+            >
+              Explore Live Demo
+            </Button>
           </div>
 
           <div className="pt-6 flex items-center justify-center gap-6 text-xs text-slate-500 dark:text-slate-400 font-medium">
@@ -349,11 +364,13 @@ export const LandingPage: React.FC = () => {
             Analyze your GitHub profile today and transform your project activity into career opportunity.
           </p>
           <div className="pt-2">
-            <Link to="/dashboard">
-              <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 border-none font-bold">
-                Launch GitInsight Dashboard
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              className="bg-white text-slate-900 hover:bg-slate-100 border-none font-bold"
+              onClick={() => navigate('/dashboard')}
+            >
+              Launch GitInsight Dashboard
+            </Button>
           </div>
         </Card>
       </section>
