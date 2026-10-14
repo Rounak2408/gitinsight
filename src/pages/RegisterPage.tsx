@@ -6,16 +6,16 @@ import { Button, Input, Card } from '../components/ui/Primitives';
 import { useAuth } from '../context/AuthContext';
 
 export const RegisterPage: React.FC = () => {
-  const [name, setName] = useState('Alex Rivera');
-  const [email, setEmail] = useState('alex.rivera@dev.io');
-  const [username, setUsername] = useState('alexrivera-dev');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const { register, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await register(name, email, username);
+      await register(name || 'Developer', email || 'dev@gitinsight.dev', username || 'rounak2408');
     } catch (err) {
       console.warn('Register note:', err);
     }
@@ -46,6 +46,7 @@ export const RegisterPage: React.FC = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. Sudhanshu Rounak"
             icon={<UserIcon className="w-4 h-4" />}
             required
           />
@@ -55,6 +56,7 @@ export const RegisterPage: React.FC = () => {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="e.g. Rounak2408"
             icon={<Github className="w-4 h-4" />}
             required
           />
@@ -64,6 +66,7 @@ export const RegisterPage: React.FC = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
             icon={<Mail className="w-4 h-4" />}
             required
           />

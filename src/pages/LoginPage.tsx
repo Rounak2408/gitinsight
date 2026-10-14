@@ -6,15 +6,15 @@ import { Button, Input, Card, Badge } from '../components/ui/Primitives';
 import { useAuth } from '../context/AuthContext';
 
 export const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('alex.rivera@dev.io');
-  const [password, setPassword] = useState('••••••••••••');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { login, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(email);
+      await login(email || 'user@gitinsight.dev');
     } catch (err) {
       console.warn('Login note:', err);
     }
@@ -45,7 +45,9 @@ export const LoginPage: React.FC = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
             icon={<Mail className="w-4 h-4" />}
+            autoComplete="email"
             required
           />
 
@@ -54,7 +56,9 @@ export const LoginPage: React.FC = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••••••"
             icon={<Lock className="w-4 h-4" />}
+            autoComplete="current-password"
             required
           />
 
